@@ -1,7 +1,44 @@
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
+import classname from 'classname'
+import toast, { toastConfig } from 'react-simple-toasts';
 import styles from '../styles/Home.module.css'
+import 'react-simple-toasts/dist/theme/dark.css'; // choose your theme
+
+toastConfig({ theme: 'dark' });
 
 export default function Home() {
+  const [agenda, setAgenda] = useState([])
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    getAgenda()
+  }, [])
+
+  const getAgenda = () => {
+    fetch('/api/agenda')
+      .then((res) => res.json())
+      .then(({ data }) => {
+        setAgenda(data)
+      })
+  }
+
+  const updateAgenda = (title, status) => {
+    fetch(`/api/agenda?title=${title}`, {
+      method: "POST",
+      body: JSON.stringify({
+        done: status,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => response.json())
+      .then((data) => {
+        toast('Agenda Updated!!')
+        getAgenda()
+      })
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -10,45 +47,18 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js</a> on Docker!
+        <h2 className={styles.title}>
+          Welcome to Code Academy Session on<br /><a href="https://kubernetes.io/docs/home/">Kubernetes</a><br /><img width="200px" src='/kicon.png' alt='kicon' />
+        </h2>
+        <h1>
+          Agenda
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          {agenda.map(({ desp, title, done, _id }) => <div key={_id} onClick={() => updateAgenda(title, !done)} className={classname(styles.card, { [styles.active]: done })}>
+            <h3>{title}</h3>
+            <p>{desp}</p>
+          </div>)}
         </div>
       </main>
 
@@ -59,7 +69,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <img src="/voda.png" alt="voda" className={styles.logo} />
         </a>
       </footer>
     </div>

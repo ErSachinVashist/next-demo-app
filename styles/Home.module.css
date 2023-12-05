@@ -23,6 +23,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: slategray;
+  font-size: 20px;
 }
 
 .footer img {
@@ -72,31 +74,57 @@
 }
 
 .grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   max-width: 800px;
   margin-top: 3rem;
 }
 
 .card {
   margin: 1rem;
-  flex-basis: 45%;
   padding: 1.5rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 2px solid #eaeaea;
   border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: all 0.15s ease, border-color 0.15s ease;
+  box-sizing: content-box;
+  flex-grow: 1;
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+.active {
+  background-color: #0070f3 !important;
+  color: white;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.active::after {
+  content: "\2713";
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  background-color: green;
+}
+.card:hover {
+  background-color: #0070f3;
+  color: white;
+  padding: 20px;
+  cursor: pointer;
 }
 
 .card h3 {
