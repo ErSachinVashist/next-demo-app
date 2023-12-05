@@ -9,7 +9,6 @@ toastConfig({ theme: 'dark' });
 
 export default function Home() {
   const [agenda, setAgenda] = useState([])
-  const [loading, setLoading] = useState(true)
   useEffect(() => {
     getAgenda()
   }, [])
@@ -32,8 +31,8 @@ export default function Home() {
         "Content-type": "application/json; charset=UTF-8"
       }
     })
-      .then(response => response.json())
-      .then((data) => {
+      .then(response => response.status)
+      .then(() => {
         toast('Agenda Updated!!')
         getAgenda()
       })
