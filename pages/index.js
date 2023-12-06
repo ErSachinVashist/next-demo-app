@@ -17,6 +17,7 @@ export default function Home() {
     fetch('/api/agenda')
       .then((res) => res.json())
       .then(({ data }) => {
+        if(Array.isArray(data)) 
         setAgenda(data)
       })
   }
@@ -47,7 +48,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h2 className={styles.title}>
-          Welcome to Code Academy Session on<br /><a href="https://kubernetes.io/docs/home/">Kubernetes</a><br /><img width="200px" src='/kicon.png' alt='kicon' />
+          It's Code Academy Session on<br /><a href="https://kubernetes.io/docs/home/">Kubernetes</a><br /><img width="200px" src='/kicon.png' alt='kicon' />
         </h2>
         <h1>
           Agenda

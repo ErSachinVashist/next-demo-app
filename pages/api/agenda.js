@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
 export default async function agenda(req, res) {
-  const MONGODB_URI=`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}?retryWrites=true&w=majority`
+  const MONGODB_URI=`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}`
+  console.log("MONGODB_URI >>>>> ",MONGODB_URI,process.env.MONGODB_DB)
   const client = new MongoClient(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -8,7 +9,7 @@ export default async function agenda(req, res) {
 
   try {
     await client.connect();
-    const database = client.db('codeacademy'); // Choose a name for your database
+    const database = client.db(process.env.MONGODB_DB); // Choose a name for your database
 
     const collection = database.collection('agenda'); // Choose a name for your collection
     if (req.method === 'GET') {
